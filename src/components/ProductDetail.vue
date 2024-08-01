@@ -6,27 +6,28 @@ const products = ref([]);
 const getProducts = () => {
     fetch("https://fakestoreapi.com/products")
     .then((res) => res.json())
-    .then((data) => (products.value = data.products));
+    .then((data) => (products.value = data));
 };
 
 onMounted(() => getProducts());
 </script>
 
-<template>
+<template class="grid justify-center">
       <div class="grid justify-center">
     <ul class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
-      <a href="/#/product/{product.id}"> 
       <li 
+          v-for="product in products"
+          :key="product.id"
           class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
         >
-          <img src={{product.image}} alt={{product.title}} class="object-contain h-48 mt-3" />
+          <img :src="product.image" :alt="product.title" class="object-contain h-48 mt-3" />
   
           <div class="flex-1 flex flex-col p-6">
             <div class="flex-1">
                 <header class="mb-2 flex-2">
                   <h2 class="text-lg line-clamp-2 font-extrabold leading-snug">
                     <div class="text-slate-600">
-                      {{product.title}}
+                      {{ product.title }}
                     </div>
                   </h2>
                 </header>
@@ -36,7 +37,7 @@ onMounted(() => getProducts());
                     <path
                       d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                   </svg>
-                  <span>{{product.rating.rate}}</span>
+                  <span>{{ product.rating.rate }}</span>
                 </div>
               <div class="mx-auto w-[90%] space-y-2">
                 <h2 class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug">
@@ -47,7 +48,7 @@ onMounted(() => getProducts());
                   <span
                     class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
                   >
-                    {{product.category}}
+                    {{ product.category }}
                   </span>
                 </div>
                 <div class="justify-end space-x-2">
@@ -64,7 +65,6 @@ onMounted(() => getProducts());
             </div>
           </div>
         </li>
-      </a>
     </ul>
   </div>
 </template>
