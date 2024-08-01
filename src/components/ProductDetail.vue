@@ -1,22 +1,44 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, defineProps } from 'vue';
+
+const props = defineProps({
+  sortOption: String
+});
 
 const products = ref([]);
+const sortedProducts = ref([]);
 
 const getProducts = () => {
     fetch("https://fakestoreapi.com/products")
     .then((res) => res.json())
-    .then((data) => (products.value = data));
+    .then((data) => {
+      products.value = data;
+      sortedProducts.value = [...products.value];
+    });
+};
+
+const sortProducts = (sortOption) => {
+  if( sortOption === 'low' ) {
+    sortedProducts.value = [...products.value].sort((a, b) => a.price - b.price); 
+} else if ( sortOption === 'high' ) {
+  sortedProducts.value = [...products.value].sort((a, b) => b.price - a.price);
+} else {
+    sortedProducts.value = [...products.value];
+  }
 };
 
 onMounted(() => getProducts());
+
+watch(() => props.sortOption, (newSortOption) => {
+  sortProducts(newSortOption);
+});
 </script>
 
 <template class="grid justify-center">
       <div class="grid justify-center">
     <ul class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
       <li 
-          v-for="product in products"
+          v-for="product in sortedProducts"
           :key="product.id"
           class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
         >
