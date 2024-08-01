@@ -1,12 +1,14 @@
 <script setup>
   import Header from './components/Header.vue';
   import Filter from './components/Filter.vue';
+  import Sort from './components/Sort.vue';
 </script>
 
 <template>
 
-  <Header msg="SwiftCart" />
+  <Header />
   <Filter />
+  <Sort />
 </template>
 
 <style scoped>
