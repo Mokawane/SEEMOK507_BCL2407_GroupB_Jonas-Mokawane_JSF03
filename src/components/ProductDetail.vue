@@ -61,6 +61,11 @@ watch(() => props.sortOption, (newSortOption) => {
                   </svg>
                   <span>{{ product.rating.rate }}</span>
                 </div>
+                <div class="mx-auto w-[90%] space-y-2">
+                <h2 class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug">
+                  R{{product.price}}
+                </h2>
+              </div>
               <div class="mx-auto w-[90%] space-y-2">
                 <h2 class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug">
                 </h2>
