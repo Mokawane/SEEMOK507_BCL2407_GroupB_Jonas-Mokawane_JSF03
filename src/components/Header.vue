@@ -1,3 +1,13 @@
+<script setup>
+  import { ref } from 'vue';
+
+  const dropdownOpen = ref(false);
+
+  const toggleDropdown = () => {
+    dropdownOpen.value = !dropdownOpen.value;
+};
+</script>
+
 <template>
 <header class="sticky z-50 top-0">
     <nav class="bg-gray-500 border-gray-200 ">
@@ -10,6 +20,7 @@
           </button>
         
         <button
+          @click="toggleDropdown"
           type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
           aria-controls="navbar-default"
@@ -34,7 +45,8 @@
         </button>
 
         <div
-          class="hidden w-full md:block md:w-auto"
+          :class="{ 'block': dropdownOpen, 'hidden': !dropdownOpen }"
+          class="w-full md:block md:w-auto"
         >
           <ul class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
             <li class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
