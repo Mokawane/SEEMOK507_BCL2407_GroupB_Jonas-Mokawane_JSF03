@@ -2,36 +2,47 @@
 import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
-  sortOption: String
+  sortOption: String,
+  selectedCategory: String
 });
 
 const products = ref([]);
+const filteredProducts = ref([]);
 const sortedProducts = ref([]);
 
-const getProducts = () => {
-    fetch("https://fakestoreapi.com/products")
-    .then((res) => res.json())
-    .then((data) => {
+const getProducts = async () => {
+    try {
+      const res = await fetch("https://fakestoreapi.com/products");
+      const data = await res.json();
       products.value = data;
-      sortedProducts.value = [...products.value];
-    });
-};
+      filterAndSortProducts();
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
-const sortProducts = (sortOption) => {
-  if( sortOption === 'low' ) {
-    sortedProducts.value = [...products.value].sort((a, b) => a.price - b.price); 
-} else if ( sortOption === 'high' ) {
-  sortedProducts.value = [...products.value].sort((a, b) => b.price - a.price);
-} else {
-    sortedProducts.value = [...products.value];
-  }
-};
-
-onMounted(() => getProducts());
-
-watch(() => props.sortOption, (newSortOption) => {
-  sortProducts(newSortOption);
-});
+  const filterAndSortProducts = () => {
+    let filtered = [...products.value];
+  
+    if (props.selectedCategory && props.selectedCategory !== 'All Categories') {
+      filtered = filtered.filter(product => product.category === props.selectedCategory);
+    }
+  
+    if (props.sortOption === 'low') {
+      sortedProducts.value = filtered.sort((a, b) => a.price - b.price);
+    } else if (props.sortOption === 'high') {
+      sortedProducts.value = filtered.sort((a, b) => b.price - a.price);
+    } else {
+      sortedProducts.value = filtered;
+    }
+  };
+  
+  onMounted(() => {
+    getProducts();
+  });
+  
+  watch(() => props.sortOption, filterAndSortProducts);
+  watch(() => props.selectedCategory, filterAndSortProducts);
 </script>
 
 <template class="grid justify-center">

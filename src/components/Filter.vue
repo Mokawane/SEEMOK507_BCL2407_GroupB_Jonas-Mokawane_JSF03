@@ -1,20 +1,48 @@
+<script setup>
+  import { ref } from 'vue';
+  
+  const props = defineProps({
+    categories: Array
+  });
+  
+  const emit = defineEmits(['categoryChange']);
+  const showDropdown = ref(false);
+  const selectedCategory = ref('All Categories');
+  
+  const toggleDropdown = () => {
+    showDropdown.value = !showDropdown.value;
+  };
+  
+  const handleCategorySelect = (category) => {
+    selectedCategory.value = category;
+    emit('categoryChange', category);
+    showDropdown.value = false;
+  };
+</script>
+
 <template>
     <form>
         <div class="flex lg:w-[31.25rem] sm:w-[95%] md:w-full relative">
-            <button data-dropdown-toggle="dropdown"
+            <button
+                @click="toggleDropdown"
                 class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 "
-                type="button"> All Categories
+                type="button"> {{ selectedCategory }}
                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                         d="m1 1 4 4 4-4" />
                 </svg>
             </button>
-            <div id="dropdown"
-                class="z-10 absolute top-[100%] hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+            <div 
+                v-show="showDropdown"
+                class="z-10 absolute top-[100%] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                 <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
-                    <li>
-                        All categories
+                    <li
+                        v-for="category in categories"
+                        :key="category"
+                        @click="handleCategorySelect(category)"
+                        class="block px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        {{ category }}
                     </li>
                     <li>
                         <button class="inline-flex w-full px-4 py-2 hover:bg-gray-100">

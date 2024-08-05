@@ -10,7 +10,8 @@
 
 <template>
         <div class="flex sm:w-[95%] max-w-[21rem] md:w-full">
-      <label for="sort" class="w-20 my-auto font-semibold">Sort by :
+      <label for="sort" class="w-20 my-auto font-semibold">
+        Sort by:
       </label>
       <select id="sort"
         @change="emitSort"
