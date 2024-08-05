@@ -3,7 +3,8 @@ import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
   sortOption: String,
-  selectedCategory: String
+  selectedCategory: String,
+  searchQuery: String
 });
 
 const products = ref([]);
@@ -27,7 +28,13 @@ const getProducts = async () => {
     if (props.selectedCategory && props.selectedCategory !== 'All Categories') {
       filtered = filtered.filter(product => product.category === props.selectedCategory);
     }
-  
+    
+    if (props.searchQuery) {
+      filtered = filtered.filter(product => 
+        product.title.toLowerCase().includes(props.searchQuery.toLowerCase())
+      );
+    }
+
     if (props.sortOption === 'low') {
       sortedProducts.value = filtered.sort((a, b) => a.price - b.price);
     } else if (props.sortOption === 'high') {
@@ -43,6 +50,7 @@ const getProducts = async () => {
   
   watch(() => props.sortOption, filterAndSortProducts);
   watch(() => props.selectedCategory, filterAndSortProducts);
+  watch(() => props.searchQuery, filterAndSortProducts);
 </script>
 
 <template class="grid justify-center">

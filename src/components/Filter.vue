@@ -5,9 +5,10 @@
     categories: Array
   });
   
-  const emit = defineEmits(['categoryChange']);
+  const emit = defineEmits(['categoryChange', 'searchChange']);
   const showDropdown = ref(false);
   const selectedCategory = ref('All Categories');
+  const searchQuery = ref('');
   
   const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
@@ -18,6 +19,10 @@
     emit('categoryChange', category);
     showDropdown.value = false;
   };
+
+  const handleSearch = () => {
+  emit('searchChange', searchQuery.value);
+};
 </script>
 
 <template>
@@ -41,17 +46,19 @@
                         v-for="category in categories"
                         :key="category"
                         @click="handleCategorySelect(category)"
-                        class="block px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
                         {{ category }}
                     </li>
-                    <li>
+                    <!-- <li>
                         <button class="inline-flex w-full px-4 py-2 hover:bg-gray-100">
                         </button>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="relative w-full">
                 <input
+                    v-model="searchQuery"
+                    @input="handleSearch"
                     class=" p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                     placeholder="Search products..." />
                 <button type="submit"
