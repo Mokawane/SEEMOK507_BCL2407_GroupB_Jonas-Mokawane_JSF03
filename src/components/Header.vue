@@ -1,8 +1,16 @@
 <script setup>
   import { ref } from 'vue';
 
+  /** 
+ * A ref to manage the dropdown menu state.
+ * @type {Ref<Boolean>}
+ */
   const dropdownOpen = ref(false);
 
+  /**
+ * Toggles the dropdown menu open and closed.
+ * @function
+ */
   const toggleDropdown = () => {
     dropdownOpen.value = !dropdownOpen.value;
 };

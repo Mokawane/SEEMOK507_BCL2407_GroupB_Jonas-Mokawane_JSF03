@@ -1,25 +1,68 @@
 <script setup>
   import { ref } from 'vue';
   
+  /**
+ * Props passed to the component.
+ * @typedef {Object} Props
+ * @property {Array<string>} categories - List of categories for the dropdown.
+ */
+
+/** 
+ * @type {Props} 
+ */
   const props = defineProps({
     categories: Array
   });
   
+  /**
+ * Emits events for category and search changes.
+ * @typedef {Object} Emits
+ * @property {function(string): void} categoryChange - Emit event when the category is changed.
+ * @property {function(string): void} searchChange - Emit event when the search query is changed.
+ */
   const emit = defineEmits(['categoryChange', 'searchChange']);
+
+  /** 
+ * A ref to manage the dropdown menu state.
+ * @type {Ref<Boolean>}
+ */
   const showDropdown = ref(false);
+
+  /** 
+ * A ref to hold the currently selected category.
+ * @type {Ref<String>}
+ */
   const selectedCategory = ref('All Categories');
+
+  /** 
+ * A ref to hold the search query input.
+ * @type {Ref<String>}
+ */
   const searchQuery = ref('');
   
+  /**
+ * Toggles the dropdown menu open and closed.
+ * @function
+ */
   const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
   };
   
+  /**
+ * Handles selecting a category from the dropdown.
+ * @function
+ * @param {string} category - The selected category.
+ */
   const handleCategorySelect = (category) => {
     selectedCategory.value = category;
     emit('categoryChange', category);
     showDropdown.value = false;
   };
 
+  /**
+ * Emits the search query when the input changes.
+ * @function
+ */
   const handleSearch = () => {
   emit('searchChange', searchQuery.value);
 };

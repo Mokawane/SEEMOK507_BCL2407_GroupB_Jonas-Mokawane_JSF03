@@ -2,12 +2,36 @@
 import { ref, onMounted } from 'vue';
 import { useRoute , useRouter} from 'vue-router';
 
+/** 
+ * The Vue Router instance.
+ * @type {Router} 
+ */
 const router = useRouter();
 
+/** 
+ * The current route instance.
+ * @type {RouteLocationNormalizedLoaded} 
+ */
 const route = useRoute();
+
+/** 
+ * The product ID extracted from the route parameters.
+ * @type {string} 
+ */
 const productId = route.params.id;
+
+/** 
+ * A ref to hold the product data fetched from the API.
+ * @type {Ref<Object|null>} 
+ */
 const product = ref(null);
 
+/**
+ * Fetches the product data from the Fake Store API based on the product ID.
+ * @async
+ * @function getProduct
+ * @returns {Promise<void>}
+ */
 const getProduct = async () => {
     try {
         const res = await fetch(`https://fakestoreapi.com/products/${productId}`);
@@ -18,10 +42,18 @@ const getProduct = async () => {
     }
 };
 
+/**
+ * Lifecycle hook that runs when the component is mounted.
+ * Calls the getProduct function to fetch product data.
+ */
 onMounted(() => {
     getProduct();
 });
 
+/**
+ * Navigates back to the previous page.
+ * @function goBack
+ */
 const goBack = () => {
     router.push('/');
 };

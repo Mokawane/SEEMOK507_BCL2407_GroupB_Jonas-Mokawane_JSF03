@@ -1,8 +1,18 @@
 <script setup>
   // import { defineEmits } from 'vue';
 
+  /**
+ * The event emitter for this component.
+ * @type {Function}
+ */
   const emit = defineEmits(['sortChange']);
+  
 
+ /**
+ * Emits the `sortChange` event with the selected value from the dropdown.
+ * @param {Event} event - The change event from the select element.
+ * @function emitSort
+ */
   const emitSort = (event) => {
     emit('sortChange', event.target.value);
   };

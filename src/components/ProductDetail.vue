@@ -2,23 +2,45 @@
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+/**
+ * Props passed to the component
+ * @typedef {Object} Props
+ * @property {String} sortOption - The option to sort the products by
+ * @property {String} selectedCategory - The selected category to filter products
+ * @property {String} searchQuery - The search query to filter products
+ */
 const props = defineProps({
   sortOption: String,
   selectedCategory: String,
   searchQuery: String
 });
 
+/** @type {Ref<Array>} products - The list of products fetched from the API */
 const products = ref([]);
 // const filteredProducts = ref([]);
+
+/** 
+ * @type {Ref<Array>} sortedProducts - The list of sorted and filtered products */
 const sortedProducts = ref([]);
+
+/** @type {Ref<Boolean>} loading - The loading state to indicate if products are being fetched */
 const loading = ref(true);
 
+/** @type {Route} route - The current route object */
 const route = useRoute();
+
+/** @type {Router} router - The Vue router instance */
 const router = useRouter();
 // const sortOption = ref('default');
 // const selectedCategory = ref('All Categories');
 // const searchQuery = ref('');
 
+
+/**
+ * Fetches the products from the API and sets the products list
+ * @async
+ * @function getProducts
+ */
 const getProducts = async () => {
     try {
       const res = await fetch("https://fakestoreapi.com/products");
@@ -32,6 +54,11 @@ const getProducts = async () => {
     }
   };
 
+
+  /**
+ * Filters and sorts the products based on the props
+ * @function filterAndSortProducts
+ */
   const filterAndSortProducts = () => {
     let filtered = [...products.value];
   
@@ -54,10 +81,22 @@ const getProducts = async () => {
     }
   };
   
+
+  /**
+ * Lifecycle hook called when the component is mounted
+ * @function onMounted
+ */
   onMounted(() => {
     getProducts();
   });
   
+
+  /**
+ * Watchers to re-filter and sort products when the props change
+ * @watch props.sortOption
+ * @watch props.selectedCategory
+ * @watch props.searchQuery
+ */
   watch(() => props.sortOption, filterAndSortProducts);
   watch(() => props.selectedCategory, filterAndSortProducts);
   watch(() => props.searchQuery, filterAndSortProducts);
