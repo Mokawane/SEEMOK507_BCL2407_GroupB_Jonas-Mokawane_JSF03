@@ -9,14 +9,15 @@ const props = defineProps({
 });
 
 const products = ref([]);
-const filteredProducts = ref([]);
+// const filteredProducts = ref([]);
 const sortedProducts = ref([]);
+const loading = ref(true);
 
 const route = useRoute();
 const router = useRouter();
-const sortOption = ref('default');
-const selectedCategory = ref('All Categories');
-const searchQuery = ref('');
+// const sortOption = ref('default');
+// const selectedCategory = ref('All Categories');
+// const searchQuery = ref('');
 
 const getProducts = async () => {
     try {
@@ -26,6 +27,8 @@ const getProducts = async () => {
       filterAndSortProducts();
     } catch (error) {
       console.error('Error fetching products:', error);
+    } finally {
+    loading.value = false;
     }
   };
 
@@ -61,7 +64,11 @@ const getProducts = async () => {
 </script>
 
 <template class="grid justify-center">
-      <div class="grid justify-center">
+    <div v-if="loading" class="flex flex-col justify-center items-center h-screen">
+    <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-blue-500 mb-4"></div>
+    <div class="font-extrabold text-slate-500 leading-snug">Loading</div>
+  </div>
+      <div v-else class="grid justify-center">
     <ul class="lg:max-h-[130rem] max-w-xl mx-auto grid gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 items-center lg:max-w-none my-4">
       <li 
           v-for="product in sortedProducts"
