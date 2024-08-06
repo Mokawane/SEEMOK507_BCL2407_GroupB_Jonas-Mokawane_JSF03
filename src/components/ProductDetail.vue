@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   sortOption: String,
@@ -10,6 +11,8 @@ const props = defineProps({
 const products = ref([]);
 const filteredProducts = ref([]);
 const sortedProducts = ref([]);
+
+const router = useRouter();
 
 const getProducts = async () => {
     try {
@@ -60,6 +63,7 @@ const getProducts = async () => {
           v-for="product in sortedProducts"
           :key="product.id"
           class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
+          @click="() => router.push(`/product/${product.id}`)"
         >
           <img :src="product.image" :alt="product.title" class="object-contain h-48 mt-3" />
   

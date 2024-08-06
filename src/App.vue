@@ -1,14 +1,16 @@
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
+  import { useRoute } from 'vue-router';
   import Header from './components/Header.vue';
   import Filter from './components/Filter.vue';
   import Sort from './components/Sort.vue';
-  import ProductDetail from './components/ProductDetail.vue';
 
   const sortOption = ref('default');
   const selectedCategory = ref('All Categories');
   const categories = ref([]);
   const searchQuery = ref('');
+
+  const route = useRoute();
 
   const handleSortChange = (newSortOption) => {
     sortOption.value = newSortOption;
@@ -34,16 +36,18 @@ const getCategories = () => {
 onMounted(() => {
   getCategories();
 });
+
+const isProductPage = computed(() => route.path.startsWith("/product/"));
 </script>
 
 <template>
 
   <Header />
-  <div class="grid lg:flex gap-y-4 gap-x-48 lg:items-start mt-3 mx-auto justify-center">
+  <div v-if="!isProductPage" class="grid lg:flex gap-y-4 gap-x-48 lg:items-start mt-3 mx-auto justify-center">
     <Filter :categories="categories" @categoryChange="handleCategoryChange" @searchChange="handleSearchChange" />
   <Sort @sortChange = "handleSortChange" />
 </div>
-  <ProductDetail :sortOption="sortOption" :selectedCategory="selectedCategory" :searchQuery="searchQuery" />
+  <router-view :sortOption="sortOption" :selectedCategory="selectedCategory" :searchQuery="searchQuery" />
 </template>
 
 <style scoped>
