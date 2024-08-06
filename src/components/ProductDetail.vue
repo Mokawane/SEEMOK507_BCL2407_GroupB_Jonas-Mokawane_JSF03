@@ -67,13 +67,13 @@ const getProducts = async () => {
           v-for="product in sortedProducts"
           :key="product.id"
           class="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5 rounded-2xl overflow-hidden"
-          @click="() => router.push(`/product/${product.id}`)"
+          
         >
-          <img :src="product.image" :alt="product.title" class="object-contain h-48 mt-3" />
+          <img @click="() => router.push(`/product/${product.id}`)" :src="product.image" :alt="product.title" class="object-contain h-48 mt-3" />
   
           <div class="flex-1 flex flex-col p-6">
             <div class="flex-1">
-                <header class="mb-2 flex-2">
+                <header @click="() => router.push(`/product/${product.id}`)" class="mb-2 flex-2">
                   <h2 class="text-lg line-clamp-2 font-extrabold leading-snug">
                     <div class="text-slate-600">
                       {{ product.title }}
