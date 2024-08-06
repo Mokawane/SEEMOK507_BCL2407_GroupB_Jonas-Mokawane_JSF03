@@ -47,7 +47,7 @@ const isProductPage = computed(() => route.path.startsWith("/product/"));
     <Filter :categories="categories" @categoryChange="handleCategoryChange" @searchChange="handleSearchChange" />
   <Sort @sortChange = "handleSortChange" />
 </div>
-  <router-view :sortOption="sortOption" :selectedCategory="selectedCategory" :searchQuery="searchQuery" />
+  <router-view />
 </template>
 
 <style scoped>

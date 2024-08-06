@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute , useRouter} from 'vue-router';
 
+const router = useRouter();
 
 const route = useRoute();
 const productId = route.params.id;
@@ -20,10 +21,15 @@ const getProduct = async () => {
 onMounted(() => {
     getProduct();
 });
+
+const goBack = () => {
+    router.push('/');
+};
+
 </script>
 
 <template>
-    <div
+    <div @click="() => router.back(`/`)"
         class="flex items-center mt-6 space-x-2  whitespace-nowrap rounded-lg bg-cyan-700 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-900 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors m-2 w-20 ">
             <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="24" height="24">
                 <path

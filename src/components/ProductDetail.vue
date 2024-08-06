@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps({
   sortOption: String,
@@ -12,7 +12,11 @@ const products = ref([]);
 const filteredProducts = ref([]);
 const sortedProducts = ref([]);
 
+const route = useRoute();
 const router = useRouter();
+const sortOption = ref('default');
+const selectedCategory = ref('All Categories');
+const searchQuery = ref('');
 
 const getProducts = async () => {
     try {
